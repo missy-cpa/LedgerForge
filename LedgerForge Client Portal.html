@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LedgerForge – Client Portal</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1724;color:#e2e8f0;min-height:100vh}.header{background:#1a2744;border-bottom:2px solid #2d6a9f;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px}.btn{padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:500}.btn-primary{background:#2d6a9f;color:white}.btn-secondary{background:#374151;color:#e2e8f0}.btn-warning{background:#744210;color:white}.btn-success{background:#276749;color:white}.btn:hover{opacity:0.85}.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}.badge-green{background:#276749;color:#9ae6b4}.badge-yellow{background:#744210;color:#fbd38d}.badge-blue{background:#2d6a9f;color:#90cdf4}.badge-gray{background:#374151;color:#9ca3af}.card{background:#1a2332;border:1px solid #2d4a6b;border-radius:10px;padding:20px;margin-bottom:16px}.card h3{color:#63b3ed;font-size:15px;margin-bottom:14px}.nav-tabs{display:flex;gap:2px;padding:12px 24px 0;background:#111827;border-bottom:1px solid #1e3a5f}.nav-tab{padding:10px 20px;border-radius:6px 6px 0 0;cursor:pointer;font-size:13px;color:#64748b;border:1px solid transparent;border-bottom:none;position:relative;top:1px}.nav-tab:hover{color:#94a3b8}.nav-tab.active{background:#0d1724;color:#63b3ed;border-color:#1e3a5f;font-weight:600}.panel{display:none;padding:24px;max-width:1100px;margin:0 auto}.panel.active{display:block}table{width:100%;border-collapse:collapse}th{text-align:left;padding:10px 12px;color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #1e3a5f}td{padding:10px 12px;border-bottom:1px solid #1a2744;font-size:13px}tr:hover td{background:rgba(45,106,159,0.08)}.input-group{margin-bottom:14px}.input-group label{display:block;color:#94a3b8;font-size:12px;margin-bottom:5px}.input-group input,.input-group select,.input-group textarea{width:100%;background:#0d1724;border:1px solid #2d4a6b;border-radius:6px;padding:9px 12px;color:#e2e8f0;font-size:14px}.input-group input:focus,.input-group select:focus,.input-group textarea:focus{outline:none;border-color:#2d6a9f}.notif{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:8px;z-index:9999;font-size:13px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,0.5)}.notif-success{background:#1a4731;border:1px solid #276749;color:#9ae6b4}.notif-error{background:#471a1a;border:1px solid #742020;color:#feb2b2}.notif-info{background:#1a2d47;border:1px solid #2d6a9f;color:#90cdf4}#loginView{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0d1724}.login-card{background:#1a2332;border:1px solid #2d4a6b;border-radius:12px;padding:36px;width:380px;max-width:90vw}.login-logo{text-align:center;margin-bottom:24px}.login-logo .firm-name{font-size:20px;font-weight:700;color:#63b3ed}.login-logo .firm-tag{color:#64748b;font-size:12px}.login-card h2{color:#e2e8f0;font-size:18px;text-align:center;margin-bottom:20px}.activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #1a2744}.activity-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;background:#1a3a4a;color:#63b3ed}.activity-body .activity-title{font-size:13px;color:#e2e8f0}.activity-body .activity-sub{font-size:12px;color:#64748b;margin-top:2px}.activity-body .activity-time{font-size:11px;color:#4a5568;margin-top:2px}.dash-panel{display:none}.dash-panel.active{display:block}</style>
+</head>
+<body>
+<div id="loginView" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">
+      <div style="font-size:40px;margin-bottom:10px">🌐</div>
+      <div class="firm-name" id="loginFirmName">Client Portal</div>
+      <div class="firm-tag" id="loginFirmTag">Secure Document Portal</div>
+    </div>
+    <h2>Sign In to Your Portal</h2>
+    <div class="input-group">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary" style="width:100%;padding:12px;font-size:15px;margin-bottom:14px" onclick="doLogin()">Sign In</button>
+    <p style="text-align:center;color:#64748b;font-size:12px">Need your login credentials? Contact your accountant.</p>
+  </div>
+</div>
+<div id="adminView" style="display:none">
+  <div class="header">
+    <div class="header-left">
+      <span class="header-logo">🌐 LedgerForge</span>
+      <span style="color:#94a3b8;font-size:13px">Client Portal — Admin View</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="color:#94a3b8;font-size:13px">👤 <span id="adminUserName"></span></span>
+      <a href="CommandCenter.html" class="btn btn-secondary" style="text-decoration:none;font-size:12px">← Command Center</a>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" data-tab="overview" onclick="switchAdminTab('overview')">Overview</div>
+    <div class="nav-tab" data-tab="clients" onclick="switchAdminTab('clients')">Clients</div>
+    <div class="nav-tab" data-tab="activity" onclick="switchAdminTab('activity')">Activity</div>
+    <div class="nav-tab" data-tab="documents" onclick="switchAdminTab('documents')">Documents</div>
+  </div>
+  <div id="panel-overview" class="panel active"></div>
+  <div id="panel-clients" class="panel"></div>
+  <div id="panel-activity" class="panel"></div>
+  <div id="panel-documents" class="panel"></div>
+</div>
+<div id="clientDashboard" style="display:none">
+  <div class="header">
+    <div class="header-left">
+      <span class="header-logo">🌐</span>
+      <span style="color:#94a3b8;font-size:13px" id="dashFirmName">Portal</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="color:#94a3b8;font-size:13px">Welcome, <strong style="color:#e2e8f0" id="dashClientName"></strong></span>
+      <button class="btn btn-secondary" style="font-size:12px" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <div class="dash-tab nav-tab active" data-tab="upload" onclick="switchDashTab('upload')">Upload Documents</div>
+    <div class="dash-tab nav-tab" data-tab="history" onclick="switchDashTab('history')">My Documents</div>
+  </div>
+  <div id="dash-upload" class="dash-panel panel active" style="max-width:600px;margin:0 auto;padding:24px">
+    <div class="card">
+      <h3>Upload a Document</h3>
+      <div class="input-group"><label>Tax Year</label><select id="uploadYear"></select></div>
+      <div class="input-group"><label>Document Type</label><select id="uploadDocType"><option value="">-- Select type --</option><option>W-2</option><option>1099-NEC</option><option>1099-MISC</option><option>1099-INT</option><option>1099-DIV</option><option>1099-B</option><option>K-1</option><option>SSA-1099</option><option>1095-A</option><option>1098 (Mortgage)</option><option>Charitable Donation</option><option>Business Income/Expense</option><option>Bank Statement</option><option>Other</option></select></div>
+      <div class="input-group"><label>Select File</label><input type="file" id="uploadFile" accept=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.csv,.doc,.docx,.zip"></div>
+      <div class="input-group"><label>Notes (optional)</label><textarea id="uploadNotes" rows="2" placeholder="Any notes about this document..."></textarea></div>
+      <button class="btn btn-primary" style="width:100%;padding:11px;font-size:14px" onclick="handleUpload()">📤 Upload Document</button>
+    </div>
+    <div class="card">
+      <h3>Questions or Requests?</h3>
+      <p style="color:#94a3b8;font-size:13px;line-height:1.6">Please contact your accountant directly by email or phone for questions, appointment requests, or other needs.</p>
+    </div>
+  </div>
+  <div id="dash-history" class="dash-panel panel" style="max-width:900px;margin:0 auto;padding:24px"></div>
+</div>
+<script>
+const BACKEND_URL = 'https://ledgerforge-backend.onrender.com/api';
+const LF_TOKEN_KEY = 'lf_token';
+
+function lf_hashPass(s){let h=5381;for(let i=0;i<s.length;i++){h=((h<<5)+h)^s.charCodeAt(i);h&=0x7FFFFFFF;}return h.toString(36);}
+function genTmpP(){var c='ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789',p='';for(var i=0;i<10;i++)p+=c[Math.floor(Math.random()*c.length)];return p;}
+function cpGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function cpSet(k,v){localStorage.setItem(k,JSON.stringify(v));}
+function showNotif(msg,type){var el=document.createElement('div');el.className='notif notif-'+(type||'success');el.textContent=msg;document.body.appendChild(el);setTimeout(function(){el.remove();},3500);}
+
+var currentUser=cpGet('lf_user');
+var IS_ADMIN=currentUser&&(currentUser.role==='partner'||currentUser.role==='staff'||currentUser.role==='admin');
+var loggedInClient=null;
+
+document.addEventListener('DOMContentLoaded',function(){
+  if(IS_ADMIN){initAdminView();}else{initClientView();}
+  document.getElementById('loginPass').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+  document.getElementById('loginEmail').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('loginPass').focus();});
+});
+
+function initAdminView(){
+  document.getElementById('loginView').style.display='none';
+  document.getElementById('adminView').style.display='block';
+  document.getElementById('adminUserName').textContent=currentUser.name||'Admin';
+  renderAdminOverview();
+}
+
+function switchAdminTab(tab){
+  document.querySelectorAll('.nav-tab[data-tab]').forEach(function(t){t.classList.toggle('active',t.dataset.tab===tab);});
+  document.querySelectorAll('#adminView .panel').forEach(function(p){p.classList.toggle('active',p.id==='panel-'+tab);});
+  if(tab==='overview')renderAdminOverview();
+  else if(tab==='clients')renderAdminClients();
+  else if(tab==='activity')renderAdminActivity();
+  else if(tab==='documents')renderAdminDocuments();
+}
+
+function renderAdminOverview(){
+  var cpClients=cpGet('cp_clients')||[];
+  var cpActivity=cpGet('cp_activity')||[];
+  var cpDocs=cpGet('cp_documents')||[];
+  var active=cpClients.filter(function(c){return c.portalPassHash;}).length;
+  var pending=cpClients.filter(function(c){return !c.portalPassHash;}).length;
+  var el=document.getElementById('panel-overview');
+  var html='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">'
+    +'<div class="card" style="text-align:center"><div style="font-size:36px;font-weight:700;color:#63b3ed">'+cpClients.length+'</div><div style="color:#64748b;font-size:13px">Total Portal Clients</div></div>'
+    +'<div class="card" style="text-align:center"><div style="font-size:36px;font-weight:700;color:#48bb78">'+active+'</div><div style="color:#64748b;font-size:13px">Active (Can Log In)</div></div>'
+    +'<div class="card" style="text-align:center"><div style="font-size:36px;font-weight:700;color:#f6ad55">'+pending+'</div><div style="color:#64748b;font-size:13px">Pending Setup</div></div>'
+    +'</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">'
+    +'<div class="card"><h3>Recent Activity</h3>';
+  var recent=cpActivity.slice(0,5);
+  if(recent.length){recent.forEach(function(a){html+='<div class="activity-item"><div class="activity-icon">'+( a.type==='upload'?'📤':'📝')+'</div><div class="activity-body"><div class="activity-title">'+a.msg+'</div><div class="activity-sub">'+(a.sub||'')+'</div><div class="activity-time">'+new Date(a.ts).toLocaleDateString()+'</div></div></div>';});}
+  else{html+='<p style="color:#64748b;font-size:13px;padding:8px 0">No recent activity</p>';}
+  html+='</div><div class="card"><h3>Recent Uploads</h3>';
+  var recentDocs=cpDocs.slice(0,5);
+  if(recentDocs.length){recentDocs.forEach(function(d){html+='<div class="activity-item"><div class="activity-icon">📄</div><div class="activity-body"><div class="activity-title">'+d.fileName+'</div><div class="activity-sub">'+(d.docType||'')+(d.taxYear?' · '+d.taxYear:'')+'</div><div class="activity-time">'+(d.clientName||'')+'</div></div></div>';});}
+  else{html+='<p style="color:#64748b;font-size:13px;padding:8px 0">No uploaded documents</p>';}
+  html+='</div></div>';
+  el.innerHTML=html;
+}
+
+function renderAdminClients(){
+  var cpClients=cpGet('cp_clients')||[];
+  var el=document.getElementById('panel-clients');
+  var html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h2 style="color:#e2e8f0">Portal Clients ('+cpClients.length+')</h2></div>'
+    +'<div class="card" style="padding:0;overflow:hidden"><table>'
+    +'<thead><tr><th>Client</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  if(cpClients.length){cpClients.forEach(function(c){html+='<tr>'
+    +'<td><strong>'+c.name+'</strong></td>'
+    +'<td>'+c.primaryEmail+'</td>'
+    +'<td>'+(c.portalPassHash?'<span class="badge badge-green">Active</span>':'<span class="badge badge-yellow">Needs Setup</span>')+'</td>'
+    +'<td><button class="btn btn-warning" style="font-size:11px;padding:5px 10px" onclick="adminResetPass('+JSON.stringify(c.id)+','+JSON.stringify(c.name)+')">Reset Password</button></td>'
+    +'</tr>';});}
+  else{html+='<tr><td colspan="4" style="text-align:center;color:#64748b;padding:32px">No portal clients set up yet. Use the Clients page to invite clients.</td></tr>';}
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+}
+
+function renderAdminActivity(){
+  var cpActivity=cpGet('cp_activity')||[];
+  var el=document.getElementById('panel-activity');
+  var html='<h2 style="color:#e2e8f0;margin-bottom:16px">Client Activity</h2>'
+    +'<div class="card" style="padding:0;overflow:hidden"><table>'
+    +'<thead><tr><th>Type</th><th>Details</th><th>Date</th></tr></thead><tbody>';
+  if(cpActivity.length){cpActivity.forEach(function(a){html+='<tr>'
+    +'<td><span class="badge badge-blue">'+a.type+'</span></td>'
+    +'<td>'+a.msg+'<br><span style="color:#64748b;font-size:11px">'+(a.sub||'')+'</span></td>'
+    +'<td>'+new Date(a.ts).toLocaleString()+'</td>'
+    +'</tr>';});}
+  else{html+='<tr><td colspan="3" style="text-align:center;color:#64748b;padding:32px">No activity recorded yet</td></tr>';}
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+}
+
+function renderAdminDocuments(){
+  var cpDocs=cpGet('cp_documents')||[];
+  var el=document.getElementById('panel-documents');
+  var html='<h2 style="color:#e2e8f0;margin-bottom:16px">Client Uploads ('+cpDocs.length+')</h2>'
+    +'<div class="card" style="padding:0;overflow:hidden"><table>'
+    +'<thead><tr><th>File</th><th>Client</th><th>Type</th><th>Year</th><th>Date</th></tr></thead><tbody>';
+  if(cpDocs.length){cpDocs.forEach(function(d){html+='<tr>'
+    +'<td>📄 '+d.fileName+'</td>'
+    +'<td>'+d.clientName+'</td>'
+    +'<td>'+d.docType+'</td>'
+    +'<td>'+d.taxYear+'</td>'
+    +'<td>'+new Date(d.uploadedAt).toLocaleDateString()+'</td>'
+    +'</tr>';});}
+  else{html+='<tr><td colspan="5" style="text-align:center;color:#64748b;padding:32px">No client uploads yet</td></tr>';}
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+}
+
+function adminResetPass(clientId,clientName){
+  var cpClients=cpGet('cp_clients')||[];
+  var idx=cpClients.findIndex(function(c){return c.id===clientId;});
+  if(idx<0){showNotif('Client not found','error');return;}
+  var newPass=genTmpP();
+  var passHash=lf_hashPass(newPass);
+  cpClients[idx].portalPassHash=passHash;
+  cpSet('cp_clients',cpClients);
+  var email=cpClients[idx].primaryEmail;
+  var modal=document.createElement('div');
+  modal.id='rpModal';
+  modal.setAttribute('style','position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:9999;display:flex;align-items:center;justify-content:center');
+  modal.innerHTML='<div style="background:#1a2332;border:2px solid #d69e2e;border-radius:12px;padding:28px;max-width:400px;width:90%;color:#e2e8f0">'
+    +'<h2 style="color:#ecc94b;margin:0 0 8px">Password Reset</h2>'
+    +'<p style="color:#94a3b8;font-size:13px;margin:0 0 14px">'+clientName+'</p>'
+    +'<div style="background:#0d1724;border:1px solid #2d4a6b;border-radius:8px;padding:14px;margin-bottom:14px">'
+    +'<div style="margin-bottom:8px"><div style="color:#64748b;font-size:10px;text-transform:uppercase">Email</div><div style="color:#e2e8f0;font-weight:600">'+email+'</div></div>'
+    +'<div><div style="color:#64748b;font-size:10px;text-transform:uppercase">New Password</div><div style="color:#ecc94b;font-size:20px;font-weight:700;letter-spacing:2px;font-family:monospace">'+newPass+'</div></div>'
+    +'</div>'
+    +'<div style="display:flex;gap:10px">'
+    +'<button id="rpCopyBtn" class="btn btn-warning">Copy</button>'
+    +'<button onclick="var m=document.getElementById(&quot;rpModal&quot;);if(m)m.remove()" class="btn btn-secondary">Close</button>'
+    +'</div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('rpCopyBtn').onclick=function(){navigator.clipboard.writeText('Email: '+email+'\nNew Password: '+newPass).then(function(){document.getElementById('rpCopyBtn').textContent='Copied!';}).catch(function(){alert('Email: '+email+'\nPassword: '+newPass);});};
+  showNotif('Password reset for '+clientName,'success');
+}
+
+function initClientView(){
+  var session=cpGet('cp_session');
+  if(session&&session.clientId&&session.expires>Date.now()){
+    var cpClients=cpGet('cp_clients')||[];
+    loggedInClient=cpClients.find(function(c){return c.id===session.clientId;});
+    if(loggedInClient){showClientDashboard();return;}
+  }
+  document.getElementById('loginView').style.display='flex';
+  var settings=cpGet('cp_settings')||{};
+  var firm=cpGet('lf_firm_settings')||{};
+  document.getElementById('loginFirmName').textContent=settings.firmName||firm.firmName||'Client Portal';
+  document.getElementById('loginFirmTag').textContent=firm.firmTagline||'Secure Document Portal';
+}
+
+function doLogin(){
+  var email=document.getElementById('loginEmail').value.trim().toLowerCase();
+  var pass=document.getElementById('loginPass').value;
+  if(!email||!pass){showNotif('Please enter email and password','error');return;}
+  var cpClients=cpGet('cp_clients')||[];
+  var client=null;
+  for(var i=0;i<cpClients.length;i++){
+    if(cpClients[i].primaryEmail&&cpClients[i].primaryEmail.toLowerCase()===email){client=cpClients[i];break;}
+  }
+  if(!client||!client.portalPassHash){showNotif('No portal access for this email. Contact your accountant.','error');return;}
+  if(lf_hashPass(pass)!==client.portalPassHash){showNotif('Incorrect password','error');return;}
+  loggedInClient=client;
+  // Try backend portal-login for JWT token
+  (function(){
+    var loginEmail = document.getElementById('loginEmail').value.trim().toLowerCase();
+    var loginPass  = document.getElementById('loginPass').value;
+    fetch(BACKEND_URL + '/auth/portal-login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email: loginEmail, password: loginPass}),
+      signal: AbortSignal.timeout(8000)
+    }).then(function(r){return r.json();}).then(function(d){
+      if (d.token) { localStorage.setItem(LF_TOKEN_KEY, d.token); }
+    }).catch(function(){});
+  }());
+  cpSet('cp_session',{clientId:client.id,expires:Date.now()+8*3600*1000});
+  showClientDashboard();
+}
+
+function doLogout(){
+  loggedInClient=null;
+  localStorage.removeItem('cp_session');
+  document.getElementById('clientDashboard').style.display='none';
+  document.getElementById('loginView').style.display='flex';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+}
+
+function showClientDashboard(){
+  document.getElementById('loginView').style.display='none';
+  document.getElementById('clientDashboard').style.display='block';
+  var settings=cpGet('cp_settings')||{};
+  var firm=cpGet('lf_firm_settings')||{};
+  document.getElementById('dashFirmName').textContent=settings.firmName||firm.firmName||'Portal';
+  document.getElementById('dashClientName').textContent=loggedInClient.name||loggedInClient.primaryEmail;
+  renderDashUpload();
+  renderDashHistory();
+}
+
+function switchDashTab(tab){
+  document.querySelectorAll('.dash-tab').forEach(function(t){t.classList.toggle('active',t.dataset.tab===tab);});
+  document.querySelectorAll('.dash-panel').forEach(function(p){p.classList.toggle('active',p.id==='dash-'+tab);});
+  if(tab==='history')renderDashHistory();
+}
+
+function renderDashUpload(){
+  var taxYears=loggedInClient.taxYears||(cpGet('cp_settings')&&cpGet('cp_settings').taxYears)||['2024','2025','2026'];
+  var sel=document.getElementById('uploadYear');
+  if(sel){sel.innerHTML=taxYears.slice().reverse().map(function(y){return '<option value="'+y+'">'+y+'</option>';}).join('');}
+}
+
+function renderDashHistory(){
+  var cpDocs=cpGet('cp_documents')||[];
+  var myDocs=cpDocs.filter(function(d){return d.clientId===loggedInClient.id;});
+  var el=document.getElementById('dash-history');
+  if(!myDocs.length){el.innerHTML='<div style="text-align:center;color:#64748b;padding:48px;font-size:14px">No documents uploaded yet.</div>';return;}
+  var html='<div class="card" style="padding:0;overflow:hidden"><table><thead><tr><th>File</th><th>Type</th><th>Year</th><th>Uploaded</th></tr></thead><tbody>';
+  myDocs.forEach(function(d){html+='<tr><td>📄 '+d.fileName+'</td><td>'+d.docType+'</td><td>'+d.taxYear+'</td><td>'+new Date(d.uploadedAt).toLocaleDateString()+'</td></tr>';});
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+}
+
+function handleUpload(){
+  var file=document.getElementById('uploadFile').files[0];
+  var year=document.getElementById('uploadYear').value;
+  var docType=document.getElementById('uploadDocType').value;
+  var notes=document.getElementById('uploadNotes').value;
+  if(!file){showNotif('Please select a file','error');return;}
+  if(!year){showNotif('Please select a tax year','error');return;}
+  if(!docType){showNotif('Please select a document type','error');return;}
+  var cpDocs=cpGet('cp_documents')||[];
+  var cpActivity=cpGet('cp_activity')||[];
+  var rec={id:'cpd_'+Date.now(),clientId:loggedInClient.id,clientName:loggedInClient.name,fileName:file.name,storedName:year+'_'+loggedInClient.name.replace(/[^a-z0-9]/gi,'_')+'_'+file.name,docType:docType,taxYear:year,direction:'client-upload',size:file.size,uploadedAt:new Date().toISOString(),notes:notes||'',type:'Client Upload'};
+  cpDocs.unshift(rec);
+  cpSet('cp_documents',cpDocs);
+  cpActivity.unshift({id:'cpa_'+Date.now(),type:'upload',msg:file.name+' uploaded',sub:'Year: '+year+' · '+docType,clientId:loggedInClient.id,ts:new Date().toISOString()});
+  cpSet('cp_activity',cpActivity);
+  // Sync document to backend
+  (function(){
+    var token = localStorage.getItem(LF_TOKEN_KEY);
+    var cpDoc = cpDocs[0];
+    if (token && cpDoc) {
+      fetch(BACKEND_URL + '/documents', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+        body: JSON.stringify({
+          name: file.name,
+          originalName: file.name,
+          clientName: loggedInClient.name || loggedInClient.clientName || '',
+          type: 'portal_upload',
+          year: parseInt(year) || new Date().getFullYear(),
+          source: 'portal',
+          mimeType: file.type || '',
+          size: file.size || 0
+        })
+      }).catch(function(e){console.warn('[Portal] doc sync error:',e.message);});
+    }
+    // Notify admin via email
+    fetch(BACKEND_URL + '/upload-notify', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        clientId: loggedInClient.id || '',
+        clientName: loggedInClient.name || loggedInClient.clientName || '',
+        clientEmail: loggedInClient.primaryEmail || loggedInClient.email || '',
+        fileName: file.name,
+        docType: docType,
+        taxYear: year,
+        notes: document.getElementById('uploadNotes') ? document.getElementById('uploadNotes').value : ''
+      })
+    }).catch(function(e){console.warn('[Portal] notify error:',e.message);});
+  }());
+  showNotif('Document uploaded!','success');
+  document.getElementById('uploadFile').value='';
+  document.getElementById('uploadNotes').value='';
+  switchDashTab('history');
+}
+</script>
+</body>
+</html>
